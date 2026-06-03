@@ -8,8 +8,19 @@ function App() {
   function adicionarTarefa() {
     if (input.trim() === "") return;
 
-    setTarefas([...tarefas, { id: Date.now(), texto: input }]);
+    setTarefas([
+      ...tarefas,
+      { id: Date.now(), texto: input, concluida: false },
+    ]);
     setInput("");
+  }
+
+  function concluirTarefa(id) {
+    setTarefas(
+      tarefas.map((tarefa) =>
+        tarefa.id === id ? { ...tarefa, concluida: !tarefa.concluida } : tarefa,
+      ),
+    );
   }
 
   function deletarTarefa(id) {
@@ -26,6 +37,7 @@ function App() {
           value={input}
           placeholder="Digite uma tarefa..."
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && adicionarTarefa()}
         />
 
         <button onClick={adicionarTarefa}>Adicionar</button>
@@ -36,6 +48,8 @@ function App() {
           <TarefaItem
             key={tarefa.id}
             tarefa={tarefa.texto}
+            concluida={tarefa.concluida}
+            onConcluir={() => concluirTarefa(tarefa.id)}
             onDeletar={() => deletarTarefa(tarefa.id)}
           />
         ))}

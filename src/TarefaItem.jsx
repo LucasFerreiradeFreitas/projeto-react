@@ -1,7 +1,14 @@
-function TarefaItem({ tarefa, onDeletar }) {
+function TarefaItem({ tarefa, concluida, onConcluir, onDeletar }) {
   return (
-    <li>
-      {tarefa}
+    <li
+      style={{
+        textDecoration: concluida ? "line-through" : "none",
+        opacity: concluida ? 0.5 : 1,
+      }}
+    >
+      <span onClick={onConcluir} style={{ cursor: "pointer", flex: 1 }}>
+        {tarefa}
+      </span>
       <button className="btn-deletar" onClick={onDeletar}>
         Deletar
       </button>
